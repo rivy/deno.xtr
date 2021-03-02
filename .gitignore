@@ -1,0 +1,11 @@
+.history
+.nyc_output
+.build
+\#build
+build
+coverage
+dist/.targets
+node_modules
+package-lock.json
+target
+yarn.lock
