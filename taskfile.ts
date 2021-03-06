@@ -1,6 +1,8 @@
 // deno-fmt-ignore-file
 
-import { desc, env, log, run, sh, task } from 'https://deno.land/x/drake@v1.4.6/mod.ts';
+import { desc, env, log, run, runIfMain, sh, task } from './mod.ts';
+
+// import { desc, env, log, run, sh, task } from 'https://deno.land/x/drake@v1.4.6/mod.ts';
 // import { isMain } from './isMain.ts';
 
 // log(
@@ -24,8 +26,10 @@ task('help', [], async function () {
 // export { x };
 // if (Deno.mainModule === import.meta.url) {
 // if (isMain()) {
-run();
+// run();
 // }
+
+runIfMain();
 
 // throw 'test';
 // Deno.exit(100);
