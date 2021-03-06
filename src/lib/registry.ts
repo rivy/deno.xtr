@@ -1,6 +1,6 @@
-import { env } from "./env.ts";
-import { Action, Task, TaskRegistry } from "./tasks.ts";
-import { abort } from "./utils.ts";
+import { env } from './env.ts';
+import { Action, Task, TaskRegistry } from './tasks.ts';
+import { abort } from './utils.ts';
 
 /** Global task registry. */
 const taskRegistry = new TaskRegistry();
@@ -8,7 +8,7 @@ let isRunning = false;
 
 /** Set description of next registered task. */
 export function desc(description: string): void {
-  taskRegistry.desc(description);
+	taskRegistry.desc(description);
 }
 
 /**
@@ -23,10 +23,10 @@ export function desc(description: string): void {
  *
  */
 export function task(name: string, prereqs?: string[], action?: Action): Task {
-  if (prereqs !== undefined) {
-    taskRegistry.register(name, prereqs, action);
-  }
-  return taskRegistry.get(name);
+	if (prereqs !== undefined) {
+		taskRegistry.register(name, prereqs, action);
+	}
+	return taskRegistry.get(name);
 }
 
 /**
@@ -39,30 +39,42 @@ export function task(name: string, prereqs?: string[], action?: Action): Task {
  * their parent task. The same task is never run twice.
  */
 export async function run(...taskNames: string[]) {
-  if (env("--help") || env("--version")) {
-    return;
-  }
-  if (env("--list-tasks") || env("--list-all")) {
-    taskRegistry.list().forEach((t: unknown) => console.log(t));
-  } else {
-    if (taskNames.length === 0) {
-      taskNames = env("--tasks");
-      if (taskNames.length === 0 && env("--default-task")) {
-        taskNames.push(env("--default-task"));
-      }
-    }
-    if (taskNames.length === 0) {
-      abort(
-        "no task specified (use the --list-tasks option to list tasks, --help for help)",
-      );
-    }
-    isRunning = true;
-    try {
-      await taskRegistry.run(...taskNames);
-    } finally {
-      isRunning = false;
-    }
-  }
+	if (env('--help') || env('--version')) {
+		return;
+	}
+	if (env('--list-tasks') || env('--list-all')) {
+		taskRegistry.list().forEach((t: unknown) => console.log(t));
+	} else {
+		if (taskNames.length === 0) {
+			taskNames = env('--tasks');
+			if (taskNames.length === 0 && env('--default-task')) {
+				taskNames.push(env('--default-task'));
+			}
+		}
+		if (taskNames.length === 0) {
+			abort('no task specified (use the --list-tasks option to list tasks, --help for help)');
+		}
+		isRunning = true;
+		try {
+			await taskRegistry.run(...taskNames);
+		} finally {
+			isRunning = false;
+		}
+	}
+}
+
+/**
+ * `run(...)` iff executed as mainModule (vs imported)
+ */
+export async function runIfMain(...taskNames: string[]) {
+	const stackFrames = Array.from((new Error().stack || '').split(/\r?\n|\r/)).filter(
+		(v) => !v.match(/Error/i)
+	);
+	const topFrame = stackFrames.length > 0 ? stackFrames[stackFrames.length - 1] : '';
+	// console.log({ stackFrames, top: topFrame });
+	if (topFrame.indexOf(Deno.mainModule) > -1) {
+		await run(...taskNames);
+	}
 }
 
 /**
@@ -72,9 +84,9 @@ export async function run(...taskNames: string[]) {
  * Silently skip tasks that have no action function.
  */
 export async function execute(...taskNames: string[]) {
-  if (!isRunning) {
-    // Necessary because the `run` API ensures the Drake cache file is saved.
-    abort("'execute' API must be called by 'run' API");
-  }
-  await taskRegistry.execute(...taskNames);
+	if (!isRunning) {
+		// Necessary because the `run` API ensures the Drake cache file is saved.
+		abort("'execute' API must be called by 'run' API");
+	}
+	await taskRegistry.execute(...taskNames);
 }
