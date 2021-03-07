@@ -18,8 +18,13 @@ task('hello', [], function () {
 
 desc('Display help');
 task('help', [], async function () {
-	await sh(`drake --list-tasks`);
+	// console.log('[help] Hello!');
+	await sh('deno run -A ' + import.meta.url + ' --list-tasks');
 });
+
+// task('hello', [], function () {
+// 	console.log('Hello#2 World!');
+// });
 
 // console.log({ isMain: isMain() });
 
