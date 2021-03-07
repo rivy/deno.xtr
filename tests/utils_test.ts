@@ -138,7 +138,7 @@ Deno.test('shCaptureTest', async function () {
 	({ code, output, error } = await shCapture(cat, { input: '' }));
 	assertEquals([code, output, error], [0, '', '']);
 
-	const text = readFile('dexfile.ts');
+	const text = readFile('taskfile.ts');
 	({ code, output, error } = await shCapture(cat, { input: text }));
 	assertEquals([code, output, error], [0, text, '']);
 

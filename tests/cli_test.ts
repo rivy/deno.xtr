@@ -1,29 +1,27 @@
 import { shCapture, vers } from '../src/lib/utils.ts';
 import { assertEquals, assertStringIncludes, path } from './deps.ts';
 
-// spell-checker:ignore drakefile
-
 Deno.test('cliTest', async function () {
 	const denoRun = 'deno run -A --quiet';
-	const drake = `${denoRun} dexfile.ts`;
+	const dexter = `${denoRun} taskfile.ts`;
 
-	let { code, output, error } = await shCapture(`${drake} --version`);
+	let { code, output, error } = await shCapture(`${dexter} --version`);
 	assertEquals(code, 0);
 	assertEquals(output.trimRight(), vers());
 
-	({ code, output, error } = await shCapture(`${denoRun} --unstable dexfile.ts --version`));
+	({ code, output, error } = await shCapture(`${denoRun} --unstable taskfile.ts --version`));
 	assertEquals(code, 0);
 	assertEquals(output.trimRight(), vers());
 
-	({ code, output } = await shCapture(`${drake} --help`));
+	({ code, output } = await shCapture(`${dexter} --help`));
 	assertEquals(code, 0);
-	assertStringIncludes(output, 'drake - a make-like task runner for Deno.');
+	assertStringIncludes(output, 'a make-like task runner for Deno.');
 
-	({ code, output } = await shCapture(`${drake} --list-tasks`, { env: { NO_COLOR: 'true' } }));
+	({ code, output } = await shCapture(`${dexter} --list-tasks`, { env: { NO_COLOR: 'true' } }));
 	assertEquals(code, 0);
 	assertStringIncludes(output, 'Push changes to Github');
 
-	({ code, output } = await shCapture(`${drake} -L`, { env: { NO_COLOR: 'true' } }));
+	({ code, output } = await shCapture(`${dexter} -L`, { env: { NO_COLOR: 'true' } }));
 	assertEquals(code, 0);
 	assertStringIncludes(output, '     test\n');
 
@@ -46,30 +44,30 @@ Deno.test('cliTest', async function () {
 	assertEquals(code, 1);
 	assertStringIncludes(error, '--directory missing or not a directory');
 
-	({ code, output } = await shCapture(`${denoRun} examples/examples-drakefile.ts cwd --quiet`));
+	({ code, output } = await shCapture(`${denoRun} examples/examples-taskfile.ts cwd --quiet`));
 	assertEquals(code, 0);
 	assertEquals(output.trimRight(), Deno.cwd());
 
 	({ code, output } = await shCapture(
-		`${denoRun} examples/examples-drakefile.ts cwd --quiet --directory .`
+		`${denoRun} examples/examples-taskfile.ts cwd --quiet --directory .`
 	));
 	assertEquals(code, 0);
 	assertEquals(output.trimRight(), Deno.cwd());
 
 	({ code, output } = await shCapture(
-		`${denoRun} examples/examples-drakefile.ts cwd --quiet --directory examples`
+		`${denoRun} examples/examples-taskfile.ts cwd --quiet --directory examples`
 	));
 	assertEquals(code, 0);
 	assertEquals(output.trimRight(), path.join(Deno.cwd(), 'examples'));
 
-	({ code, error } = await shCapture(`${denoRun} examples/examples-drakefile.ts abort`, {
+	({ code, error } = await shCapture(`${denoRun} examples/examples-taskfile.ts abort`, {
 		stderr: 'piped',
 		env: { NO_COLOR: 'true' },
 	}));
 	assertEquals(code, 1);
 	assertStringIncludes(error, 'error: abort message');
 
-	({ code, error } = await shCapture(`${denoRun} examples/examples-drakefile.ts abort --debug`, {
+	({ code, error } = await shCapture(`${denoRun} examples/examples-taskfile.ts abort --debug`, {
 		stderr: 'piped',
 		env: { NO_COLOR: 'true' },
 	}));

@@ -1,11 +1,11 @@
 import * as path from 'https://deno.land/std@0.83.0/path/mod.ts';
-import { desc, env, execute, glob, run, sh, task } from 'https://deno.land/x/drake@v1.4.6/mod.ts';
-// } from "../mod.ts";
+
+import { desc, env, execute, glob, run, sh, task } from '../mod.ts';
 
 desc('command-line usage');
 task('help', [], function () {
 	console.log(`
-Example dexfile illustrating dynamic task creation.
+Example taskfile illustrating dynamic task creation.
 
 Dynamically create file tasks to compile markdown source files to HTML.
 Execute them synchronously and asynchronously with 'compile-sync' and

@@ -3,11 +3,11 @@ import { abort, desc, execute, readFile, run, sh, task, updateFile, writeFile } 
 desc('command-line usage');
 task('help', [], function () {
 	console.log(`
-Example dexfile containing a number of frivolous example tasks.
+Example TASKFILE containing a number of frivolous example tasks.
 `);
 });
 
-desc('Minimal Drake task');
+desc('Minimal task');
 task('hello', [], function () {
 	console.log('Hello World!');
 });
@@ -32,7 +32,7 @@ task('sequential', [], async function () {
 	await sh('sleep 1');
 	await sh('ls');
 	await sh('sleep 1');
-	await sh('wc dexfile.ts');
+	await sh('wc taskfile.ts');
 	await sh('sleep 1');
 });
 
@@ -52,7 +52,7 @@ task('script', [], async function () {
           echo "Running as $USER"
       fi
       ls
-      wc dexfile.ts`);
+      wc taskfile.ts`);
 });
 
 desc('Asynchronous task pauses for 1 second');
@@ -96,12 +96,12 @@ task('cwd', [], function () {
 
 desc('readFile, writeFile, updateFile');
 task('rwu', [], function () {
-	writeFile('/tmp/drake-test.txt', 'Hello World!');
-	updateFile('/tmp/drake-test.txt', /Hello/, 'Hello cruel');
-	console.log(readFile('/tmp/drake-test.txt'));
+	writeFile('/tmp/xtr-task-test.txt', 'Hello World!');
+	updateFile('/tmp/xtr-task-test.txt', /Hello/, 'Hello cruel');
+	console.log(readFile('/tmp/xtr-task-test.txt'));
 });
 
-desc('Failing Drake task');
+desc('Failing task');
 task('abort', [], function () {
 	abort('abort message');
 });
