@@ -19,11 +19,11 @@ Deno.test('cli_test', async function () {
 
 	({ code, output } = await shCapture(`${dexter} --list-tasks`, { env: { NO_COLOR: 'true' } }));
 	assertEquals(code, 0);
-	assertStringIncludes(output, 'Push changes to Github');
+	assertStringIncludes(output, 'Display tasks');
 
 	({ code, output } = await shCapture(`${dexter} -L`, { env: { NO_COLOR: 'true' } }));
 	assertEquals(code, 0);
-	assertStringIncludes(output, '     test\n');
+	assertStringIncludes(output, '     lint\n');
 
 	// for Win10/PowerShell-v5, this fails due to PoSH returning a non-error exit codes
 	// * (Windows 2019/PowerShell-v7) succeeds
