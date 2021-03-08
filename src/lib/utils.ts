@@ -298,8 +298,9 @@ export interface ShCaptureOpts extends ShOpts {
  *
  */
 export async function shCapture(command: string, opts: ShCaptureOpts = {}): Promise<ShOutput> {
+	const shellCMD = shArgs(command);
 	const p = Deno.run({
-		cmd: shArgs(command),
+		cmd: shellCMD,
 		cwd: opts.cwd,
 		env: opts.env,
 		stdin: opts.input !== undefined ? 'piped' : undefined,
@@ -328,7 +329,9 @@ export async function shCapture(command: string, opts: ShCaptureOpts = {}): Prom
 	} as const;
 	debug(
 		'shCapture',
-		`${command}\nopts:      ${JSON.stringify(opts)}\noutputs:   ${JSON.stringify(result)}`
+		`${command}\n=> ${shellCMD}\nopts:      ${JSON.stringify(opts)}\noutputs:   ${JSON.stringify(
+			result
+		)}`
 	);
 	return result;
 }
