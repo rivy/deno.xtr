@@ -22,7 +22,7 @@ import {
 
 const testFileName = path.parse(import.meta.url).name;
 function name(name: string) {
-	return testFileName + name;
+	return testFileName + ':' + name;
 }
 
 Deno.test(name('abortTest'), function () {
@@ -128,17 +128,17 @@ Deno.test(name('shTest'), async function () {
 });
 
 Deno.test(name('shCaptureTest'), async function () {
-	let { code, output, error } = await shCapture('echo Hello');
-	assertEquals([code, output.trimRight(), error], [0, 'Hello', '']);
+	let { code, output, error } = await shCapture('echo echo:Hello');
+	assertEquals([code, output.trimRight(), error], [0, 'echo:Hello', '']);
 
 	({ code, output, error } = await shCapture('a-nonexistent-command', { stderr: 'piped' }));
 	assertNotEquals(code, 0);
 	assertEquals(output, '');
 	assertStringIncludes(error, 'a-nonexistent-command');
 
-	const cat = `deno eval "Deno.copy(Deno.stdin, Deno.stdout)"`;
-	({ code, output, error } = await shCapture(cat, { input: 'Hello' }));
-	assertEquals([code, output, error], [0, 'Hello', '']);
+	const cat = 'deno eval "Deno.copy(Deno.stdin, Deno.stdout)"';
+	({ code, output, error } = await shCapture(cat, { input: 'cat:Hello' }));
+	assertEquals([code, output, error], [0, 'cat:Hello', '']);
 
 	({ code, output, error } = await shCapture(cat, { input: '' }));
 	assertEquals([code, output, error], [0, '', '']);
@@ -172,7 +172,7 @@ Deno.test(name('shCaptureTest'), async function () {
 
 	({ code, output, error } = await shCapture(
 		`cd examples
-     deno eval "console.log(Deno.cwd())"`
+	   deno eval "console.log(Deno.cwd())"`
 	));
 	assertEquals([code, output.trimRight(), error], [0, path.join(Deno.cwd(), 'examples'), '']);
 });

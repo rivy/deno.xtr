@@ -13,7 +13,7 @@ import { assert, assertEquals, assertThrows, assertThrowsAsync, path } from './d
 
 const testFileName = path.parse(import.meta.url).name;
 function name(name: string) {
-	return testFileName + name;
+	return testFileName + ':' + name;
 }
 
 Deno.test(name('normalizePathTest'), function () {
