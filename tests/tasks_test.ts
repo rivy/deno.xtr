@@ -11,7 +11,12 @@ import {
 import { TaskError, readFile, writeFile } from '../src/lib/utils.ts';
 import { assert, assertEquals, assertThrows, assertThrowsAsync, path } from './deps.ts';
 
-Deno.test('normalizePathTest', function () {
+const testFileName = path.parse(import.meta.url).name;
+function name(name: string) {
+	return testFileName + name;
+}
+
+Deno.test(name('normalizePathTest'), function () {
 	const tests: [string, string][] = [
 		['foobar', './foobar'],
 		['lib/io.ts', 'lib/io.ts'],
@@ -24,7 +29,7 @@ Deno.test('normalizePathTest', function () {
 	}
 });
 
-Deno.test('normalizeTaskNameTest', function () {
+Deno.test(name('normalizeTaskNameTest'), function () {
 	const tests = [[' foobar', 'foobar'], ['lib/io.ts', 'lib/io.ts'].map((p) => normalizePath(p))];
 	for (const [name, expected] of tests) {
 		assertEquals(normalizeTaskName(name), expected);
@@ -34,7 +39,7 @@ Deno.test('normalizeTaskNameTest', function () {
 	assertThrows(() => normalizeTaskName(name), TaskError, `wildcard task name not allowed: ${name}`);
 });
 
-Deno.test('isTasksTest', function () {
+Deno.test(name('isTasksTest'), function () {
 	const tests: [string, boolean][] = [
 		['foobar', true],
 		['--foobar', false],
@@ -53,7 +58,7 @@ Deno.test('isTasksTest', function () {
 	}
 });
 
-Deno.test('taskRegistryTest', async function () {
+Deno.test(name('taskRegistryTest'), async function () {
 	env('--quiet', true);
 	const taskRegistry = new TaskRegistry();
 
@@ -123,7 +128,7 @@ Deno.test('taskRegistryTest', async function () {
 	);
 });
 
-Deno.test('fileTaskTest', async function () {
+Deno.test(name('fileTaskTest'), async function () {
 	env('--quiet', true);
 	const taskRegistry = new TaskRegistry();
 

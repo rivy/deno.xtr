@@ -1,7 +1,7 @@
 import { shCapture, vers } from '../src/lib/utils.ts';
 import { assertEquals, assertStringIncludes, path } from './deps.ts';
 
-Deno.test('cliTest', async function () {
+Deno.test('cli_test', async function () {
 	const denoRun = 'deno run -A --quiet';
 	const dexter = `${denoRun} taskfile.ts`;
 

@@ -28,7 +28,7 @@ export type { Action, EnvValue, ShCaptureOpts, ShOpts, ShOutput, Task } from '..
 env('--abort-exits', false); // Ensure tests throw TaskErrors instead of exiting.
 
 // This "test" ensures basic conformance of exported types.
-Deno.test('modTypesTest', function () {
+Deno.test('mod_test:types', function () {
 	let envValue: EnvValue;
 	envValue = 'bar';
 	envValue = true;

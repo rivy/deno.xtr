@@ -1,7 +1,7 @@
 import { Graph } from '../src/lib/graph.ts';
 import { assertEquals } from './deps.ts';
 
-Deno.test('graphTest', function () {
+Deno.test('graph_test', function () {
 	const g = new Graph();
 	g.addNode('u', ['v', 'x']);
 	g.addNode('v', ['y']);

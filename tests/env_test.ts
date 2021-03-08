@@ -4,7 +4,7 @@ import { Env } from '../src/lib/env.ts';
 import { TaskError } from '../src/lib/utils.ts';
 import { assertEquals, assertThrows } from './deps.ts';
 
-Deno.test('envTest', function () {
+Deno.test('env_test', function () {
 	const env = Env.create();
 	const opts = [
 		// "--abort-exits",

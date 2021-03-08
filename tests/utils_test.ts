@@ -20,11 +20,16 @@ import {
 	path,
 } from './deps.ts';
 
-Deno.test('abortTest', function () {
+const testFileName = path.parse(import.meta.url).name;
+function name(name: string) {
+	return testFileName + name;
+}
+
+Deno.test(name('abortTest'), function () {
 	assertThrows(() => abort('Abort test'), TaskError, 'Abort test');
 });
 
-Deno.test('fileFunctionsTest', function () {
+Deno.test(name('fileFunctionsTest'), function () {
 	const tmpDir = Deno.makeTempDirSync();
 	try {
 		// Read, write update tests.
@@ -52,7 +57,7 @@ Deno.test('fileFunctionsTest', function () {
 	}
 });
 
-Deno.test('globTest', function () {
+Deno.test(name('globTest'), function () {
 	let files = glob('./mod.ts', './src/lib/*.ts');
 	assertEquals(
 		files,
@@ -108,11 +113,11 @@ Deno.test('globTest', function () {
 	}
 });
 
-Deno.test('quoteTest', function () {
+Deno.test(name('quoteTest'), function () {
 	assertEquals(quote(['foo', '"bar"']), '"foo" "\\"bar\\""');
 });
 
-Deno.test('shTest', async function () {
+Deno.test(name('shTest'), async function () {
 	await sh('echo Hello', { stdout: 'null' });
 	await assertThrowsAsync(
 		async () => await sh('non-existent-command', { stderr: 'null' }),
@@ -122,7 +127,7 @@ Deno.test('shTest', async function () {
 	await sh(['echo Hello 1', 'echo Hello 2', 'echo Hello 3'], { stdout: 'null' });
 });
 
-Deno.test('shCaptureTest', async function () {
+Deno.test(name('shCaptureTest'), async function () {
 	let { code, output, error } = await shCapture('echo Hello');
 	assertEquals([code, output.trimRight(), error], [0, 'Hello', '']);
 

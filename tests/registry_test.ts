@@ -4,7 +4,7 @@ import { TaskError, readFile, vers, writeFile } from '../src/lib/utils.ts';
 import { assert, assertEquals, assertThrowsAsync, existsSync } from './deps.ts';
 env('--quiet', true);
 
-Deno.test('registryTest', async function () {
+Deno.test('registry_test', async function () {
 	const tmpDir = Deno.makeTempDirSync();
 	const savedCwd = Deno.cwd();
 	try {
