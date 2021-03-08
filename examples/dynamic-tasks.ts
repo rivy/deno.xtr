@@ -2,6 +2,8 @@ import * as path from 'https://deno.land/std@0.83.0/path/mod.ts';
 
 import { desc, env, execute, glob, run, sh, task } from '../mod.ts';
 
+// spell-checker:ignore () mdfiles outdir
+
 desc('command-line usage');
 task('help', [], function () {
 	console.log(`
