@@ -1,6 +1,7 @@
 // deno-fmt-ignore-file
+// deno-lint-ignore-file
 module.exports = {
-	printWidth: 100,
+	printWidth: 120,
 	singleQuote: true,
 	useTabs: true,
 	tabWidth: 2,

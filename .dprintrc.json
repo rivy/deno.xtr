@@ -3,7 +3,7 @@
 	"projectType": "openSource",
 	"incremental": true,
 	"indentWidth": 2,
-	"lineWidth": 100,
+	"lineWidth": 120,
 	"useTabs": true,
 	"typescript": {
 		// ref: <https://dprint.dev/plugins/typescript/config>
