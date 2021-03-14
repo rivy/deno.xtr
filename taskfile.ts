@@ -39,7 +39,9 @@ task('test', ['lint', 'fmt'], async function () {
 
 desc('Format source files');
 task('fmt', [], async function () {
-	await sh(`dprint --verbose fmt ${quiet} ${quote(TS_FILES)}`);
+	// dprint-0.11.1 requires nix-style paths for correct matching
+	const files = TS_FILES.map((s) => s.replaceAll('\\', '/'));
+	await sh(`dprint --verbose fmt ${quiet} ${quote(files)}`);
 });
 
 desc('Lint source files');
